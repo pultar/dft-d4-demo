@@ -70,6 +70,9 @@ struct molecule {
     }
   }
 
+  /**
+   * convert to Angstrom
+   */
   void to_angstrom() {
     if (format != 'A') {
       for (auto& e : positions) {
@@ -104,6 +107,9 @@ struct molecule {
    */
   char format;
 
+  /**
+   * reset molecule
+   */
   void clear() {
     n_atoms = 0;
     charge = 0;
@@ -112,6 +118,9 @@ struct molecule {
     format = 'A';
   }
 
+  /**
+   * extractor and inserter
+   */
   friend std::istream& operator>>(std::istream& ifs, molecule& mol) {
     // clear old data
     mol.clear();
@@ -187,6 +196,7 @@ int main(int argc, char** argv) {
   dftd4_get_properties(error, structure, model, c_n.data(), charges.data(), c6.data(), alphas.data());
 
   for (size_t i = 0; i < natoms; ++i) {
+    // only print first dimension of C6
     std::cout << "[ atom #" << i << ": CN " << c_n[i] << ", Q " << charges[i] << ", C6 " << c6[natoms + i] << ", Alpha " << alphas[i] << "]" << std::endl;
   }
 
